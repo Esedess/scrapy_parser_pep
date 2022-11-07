@@ -59,7 +59,13 @@ scrapy crawl pep -s LOG_FILE=scrapy.log
 
 ## Tech Stack
 
-[Scrapy](https://github.com/scrapy/scrapy)
++ `Python` : <https://github.com/python>
++ `Scrapy` : <https://github.com/scrapy/scrapy>
+    + .css
+    + .xpath
+    + Pipelines
+    + Feeds
+    + Items
 
 ***
 

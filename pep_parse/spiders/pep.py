@@ -1,3 +1,5 @@
+import re
+
 import scrapy
 
 from pep_parse.items import PepParseItem
@@ -15,10 +17,9 @@ class PepSpider(scrapy.Spider):
             yield response.follow(pep_link, callback=self.parse_pep)
 
     def parse_pep(self, response):
-        number, name = response.css(
-            '.page-title::text').get().split('–', maxsplit=1)
-        number = number.replace('PEP', '').strip()
-        name = name.strip()
+        pattern = r'^PEP (\d*) – (.*)'
+        title = response.css('.page-title::text').get()
+        number, name = re.findall(pattern, title)[0]
         status = response.xpath(
             '//dt[contains(text(), "Status")]/following-sibling::dd/text()'
         ).get()

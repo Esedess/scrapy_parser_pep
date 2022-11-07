@@ -3,14 +3,13 @@ from collections import defaultdict
 from datetime import datetime as dt
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent  # BASE_DIR requires for pytest
+BASE_DIR = Path(__file__).parent.parent
 statuses_counts = defaultdict(int)
 
 
 class PepParsePipeline:
     def open_spider(self, spider):
-        # Required for pytest. I don't know what to write in it.
-        ...
+        statuses_counts.clear()
 
     def process_item(self, item, spider):
         pep_status = item.get('status')
@@ -19,9 +18,15 @@ class PepParsePipeline:
 
     def close_spider(self, spider):
         FILE_DATETIME = f'{dt.utcnow():%Y-%m-%d_%H-%M-%S%z}'
-        # BASE_DIR in FILENAME is needed for pytest,
-        # everything works exactly the same without it
-        FILENAME = BASE_DIR / f'results/status_summary_{FILE_DATETIME}.csv'
+        # Если вынести следующие 2 строки из класса, то не проходит тесты.
+        # Не понимаю как сделать по другому. Хотел положить обе строки наверх,
+        # под BASE_DIR, но так не работает.
+        # Я так понял нужно упоминание BASE_DIR внутри класса,
+        # что бы monkeypatch мог её заменить.
+        RESULTS_DIR = BASE_DIR / 'results'
+        RESULTS_DIR.mkdir(exist_ok=True)
+
+        FILENAME = RESULTS_DIR / f'status_summary_{FILE_DATETIME}.csv'
         with open(FILENAME, 'w', newline='') as csvfile:
             FIELDNAMES = ('Status', 'Count')
             writer = csv.DictWriter(csvfile, fieldnames=FIELDNAMES)
