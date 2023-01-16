@@ -15,7 +15,7 @@
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```bash
-git clone https://github.com/KapkaDibab/scrapy_parser_pep
+git clone https://github.com/Esedess/scrapy_parser_pep
 ```
 
 ```bash
@@ -72,4 +72,4 @@ scrapy crawl pep -s LOG_FILE=scrapy.log
 ## Авторы
 
 - [@yandex-praktikum](https://github.com/yandex-praktikum)
-- [@KapkaDibab](https://github.com/KapkaDibab)
+- [@Esedess](https://github.com/Esedess)
